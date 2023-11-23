@@ -1,0 +1,134 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+
+    h1 {
+      font-size: 28px;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    form {
+      margin-top: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>User Data</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <!-- Add other fields as needed -->
+      </tr>
+    </thead>
+    <tbody id="userDataBody"></tbody>
+  </table>
+
+  <form id="userDataForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <!-- Add other fields as needed -->
+
+    <button type="button" onclick="submitUserData()">Submit</button>
+  </form>
+
+  <script>
+    async function fetchUserData() {
+      const response = await fetch('/api/all-data');
+      const data = await response.json();
+      const userDataBody = document.getElementById('userDataBody');
+
+      userDataBody.innerHTML = '';
+
+      data.forEach(user => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${user.name}</td><td>${user.email}</td>`;
+        // Add other cells for additional fields
+        userDataBody.appendChild(row);
+      });
+    }
+
+    function submitUserData() {
+      const form = document.getElementById('userDataForm');
+      const formData = new FormData(form);
+
+      fetch('/api/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(Object.fromEntries(formData.entries())),
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message);
+        form.reset();
+        fetchUserData();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+      });
+    }
+
+    // Fetch initial data on page load
+    fetchUserData();
+  </script>
+
+</body>
+</html>
