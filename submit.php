@@ -5,15 +5,15 @@ header('Content-Type: application/json');
 // Get the JSON data from the request body
 $data = json_decode(file_get_contents('php://input'), true);
 
-// Simulate saving data to a database or any other storage mechanism
-// In a real-world scenario, you would use a proper database and validation
-$success = true; // Change this based on the success of data storage
+// Initialize the donations array or load existing data
+$donations = json_decode(file_get_contents('donations.json'), true) ?: [];
 
-if ($success) {
-  $response = ['message' => 'Data submitted successfully'];
-} else {
-  $response = ['message' => 'Error submitting data'];
-}
+// Add the new donation
+$donations[] = $data;
 
+// Save the updated donations array to the file
+file_put_contents('donations.json', json_encode($donations, JSON_PRETTY_PRINT));
+
+$response = ['message' => 'Data submitted successfully'];
 echo json_encode($response);
 ?>
