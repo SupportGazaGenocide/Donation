@@ -112,25 +112,21 @@
 
   <h1>Support Gaza Genocide</h1>
 
-  <!-- Information about Gaza genocide -->
   <div id="info-box">
+    <!-- Information about Gaza genocide -->
     <p>
       Over 30 infants in critical condition in Gaza hospital — UN<br>
       Following Israeli troop expulsion orders, 291 patients, including 32 critical infants, remained at Gaza’s Al Shifa Hospital.<br>
       Twenty-five of Gaza's hospitals aren't functioning due to a lack of fuel, damage, and other problems. / Photo: Reuters<br>
-      ...
       <!-- Add the rest of the information here -->
     </p>
   </div>
 
-  <!-- Button to open account details on the same page -->
   <button id="donate-button" onclick="openAccountDetails()">Donate to Gaza</button>
 
-  <!-- Admin Panel Button (visible only for the admin) -->
   <button id="admin-panel-button" onclick="openAdminPanel()">Admin Panel</button>
 
   <script>
-    // Simulating authentication, replace with a proper authentication mechanism
     const isAdmin = confirm('Are you an admin?');
     const isUserAuthenticated = false; // Assume user is not authenticated
 
@@ -139,10 +135,7 @@
     }
 
     function openAccountDetails() {
-      // Clear the previous content
       document.getElementById('info-box').innerHTML = '';
-
-      // Display account details with the photo
       document.getElementById('info-box').innerHTML = `
         <div class="popup-container">
           <div class="popup-header">
@@ -158,7 +151,6 @@
     }
 
     function openAdminPanel() {
-      // Implement admin panel functionality here
       const username = prompt('Enter your username:');
       const password = prompt('Enter your password:');
 
@@ -170,10 +162,7 @@
     }
 
     function showPaymentInformation() {
-      // Clear the previous content
       document.getElementById('info-box').innerHTML = '';
-
-      // Display payment information
       document.getElementById('info-box').innerHTML = `
         <div class="popup-container">
           <div class="popup-header">
@@ -196,18 +185,25 @@
     }
 
     function showPopup() {
+      const formData = getFormData();
+
+      // Save data to local storage
+      saveToLocal(formData);
+
+      // Retrieve data from local storage and send it to the server
+      retrieveFromLocalStorage();
+
       // Use fetch to submit the data to the server
       fetch('submit.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(getFormData()),
+        body: JSON.stringify(formData),
       })
       .then(response => response.json())
       .then(data => {
         alert(data.message);
-        // Close the payment window after submission
         window.location.reload();
       })
       .catch(error => {
@@ -217,7 +213,6 @@
     }
 
     function getFormData() {
-      // Gather form data
       return {
         name: document.getElementById('name').value,
         email: document.getElementById('email').value,
@@ -225,6 +220,32 @@
         amount: document.getElementById('amount').value,
         contact: document.getElementById('contact').value,
       };
+    }
+
+    function saveToLocal(data) {
+      const localData = JSON.parse(localStorage.getItem('donations')) || [];
+      localData.push(data);
+      localStorage.setItem('donations', JSON.stringify(localData));
+    }
+
+    function retrieveFromLocalStorage() {
+      const localData = JSON.parse(localStorage.getItem('donations')) || [];
+
+      // Use fetch to send local data to the server
+      fetch('retrieve.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `localData=${encodeURIComponent(JSON.stringify(localData))}`,
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data.message);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
     }
   </script>
 
