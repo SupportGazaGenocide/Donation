@@ -10,20 +10,15 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 20px;
-      background-color: #f0f0f0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      background-color: #f4f4f4;
       color: #333;
     }
 
     h1 {
       font-size: 28px;
-      color: #333;
     }
 
-    #admin-content {
+    #admin-info {
       width: 60%;
       margin: 20px auto;
       padding: 15px;
@@ -31,7 +26,26 @@
       border: 1px solid #ddd;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      text-align: justify;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: #fff;
     }
   </style>
 </head>
@@ -39,15 +53,41 @@
 
   <h1>Admin Panel</h1>
 
-  <!-- Admin content goes here -->
-  <div id="admin-content">
-    <!-- Display user payment information here -->
+  <!-- Admin information display area -->
+  <div id="admin-info">
+    <h2>Donation Information</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Transaction ID</th>
+          <th>Amount</th>
+          <th>Contact</th>
+        </tr>
+      </thead>
+      <tbody id="donation-table-body">
+        <!-- Donation information will be inserted here dynamically -->
+      </tbody>
+    </table>
   </div>
 
   <script>
-    // Admin panel functionality goes here
-    // Fetch and display user payment information
-    // ...
+    // Retrieve donation data from local storage and display it in the admin panel
+    const donations = JSON.parse(localStorage.getItem('donations')) || [];
+    const donationTableBody = document.getElementById('donation-table-body');
+
+    donations.forEach(donation => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${donation.name}</td>
+        <td>${donation.email}</td>
+        <td>${donation.transactionId}</td>
+        <td>${donation.amount}</td>
+        <td>${donation.contact}</td>
+      `;
+      donationTableBody.appendChild(row);
+    });
   </script>
 
 </body>
