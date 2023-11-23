@@ -1,18 +1,22 @@
+<!-- save-data.php -->
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST["name"];
-    $email = $_POST["email"];
+// Handle the submitted form data
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $data = json_decode(file_get_contents('php://input'), true);
 
-    // Add other fields as needed
+  // Validate and sanitize data (add more validation as needed)
 
-    // Append data to savedlog.php
-    $data = "Name: $name, Email: $email\n";
-    file_put_contents('savedlog.php', $data, FILE_APPEND | LOCK_EX);
+  // Save data to the file
+  $filePath = 'paymentlog.txt';
+  $file = fopen($filePath, 'a');
+  fwrite($file, json_encode($data) . PHP_EOL);
+  fclose($file);
 
-    echo json_encode(["message" => "Donation data saved successfully"]);
+  // Respond with a success message
+  echo json_encode(['message' => 'Your data has been received. We will contact you with your email id.']);
 } else {
-    // Handle invalid requests
-    http_response_code(400);
-    echo json_encode(["error" => "Invalid request"]);
+  // Respond with an error message for unsupported requests
+  http_response_code(405);
+  echo json_encode(['error' => 'Method Not Allowed']);
 }
 ?>
