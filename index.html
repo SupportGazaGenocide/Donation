@@ -3,83 +3,204 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Support GazaGenocide (Palestine)</title>
+  <title>Support Gaza Genocide</title>
   <style>
     body {
-      font-family: 'Maldives', cursive;
-      background-color: #f5f5f5; /* Set your desired background color */
-      color: #333;
-      text-align: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
       padding: 20px;
+      background: url('path/to/background-image.jpg') center/cover no-repeat;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #333;
     }
 
     h1 {
-      font-weight: bold;
+      font-size: 28px;
+      color: #fff;
     }
 
     #info-box {
       width: 60%;
       margin: 20px auto;
       padding: 15px;
-      background-color: #fff;
+      background-color: rgba(255, 255, 255, 0.9);
       border: 1px solid #ddd;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: justify;
     }
 
     #donate-button {
       padding: 10px 20px;
       font-size: 16px;
-      background-color: #4CAF50; /* Set your desired button color */
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    /* Style for the payment popup */
+    .popup-container {
+      position: relative;
+    }
+
+    .popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px;
+    }
+
+    .popup-header button {
+      background-color: transparent;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .popup-content {
+      padding: 20px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+    }
+
+    .form-submit {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
       color: #fff;
       border: none;
       border-radius: 5px;
       cursor: pointer;
     }
-
-    #committee-section {
-      margin-top: 50px;
-    }
-
-    .committee-member {
-      display: inline-block;
-      margin: 10px;
-    }
   </style>
 </head>
 <body>
 
-  <h1>Support Palestine</h1>
-
-  <!-- Displaying a photo from the local device -->
-  <img src="path/to/your/photo.jpg" alt="Support Palestine Photo" style="max-width: 100%;">
+  <h1>Support Gaza Genocide</h1>
 
   <!-- Information about Gaza genocide -->
   <div id="info-box">
-    <p>Brief information about Gaza genocide goes here...</p>
+    <p>
+      Over 30 infants in critical condition in Gaza hospital — UN<br>
+      Following Israeli troop expulsion orders, 291 patients, including 32 critical infants, remained at Gaza’s Al Shifa Hospital.<br>
+      Twenty-five of Gaza's hospitals aren't functioning due to a lack of fuel, damage, and other problems. / Photo: Reuters<br>
+      ...
+      <!-- Add the rest of the information here -->
+    </p>
   </div>
 
-  <!-- Button to open a new window/tab for donation -->
-  <button id="donate-button" onclick="openDonationPage()">Donate to Gaza</button>
-
-  <!-- Committee members section -->
-  <div id="committee-section">
-    <!-- Replace the following placeholders with actual paths and names -->
-    <div class="committee-member">
-      <img src="path/to/member1.jpg" alt="Committee Member 1" style="max-width: 100%;">
-      <p>Member 1 Name</p>
-    </div>
-    <div class="committee-member">
-      <img src="path/to/member2.jpg" alt="Committee Member 2" style="max-width: 100%;">
-      <p>Member 2 Name</p>
-    </div>
-    <!-- Add more committee members as needed -->
-  </div>
+  <!-- Button to open account details on the same page -->
+  <button id="donate-button" onclick="openAccountDetails()">Donate to Gaza</button>
 
   <script>
-    function openDonationPage() {
-      // Replace the placeholder URL with the actual donation page URL
-      window.open('https://your-donation-page-url', '_blank');
+    function openAccountDetails() {
+      // Clear the previous content
+      document.getElementById('info-box').innerHTML = '';
+
+      // Display account details
+      document.getElementById('info-box').innerHTML = `
+        <div class="popup-container">
+          <div class="popup-header">
+            <h2>Account Details</h2>
+            <button onclick="showPaymentInformation()">Next</button>
+          </div>
+          <div class="popup-content">
+            <p>Account Number: 125335<br>IFSC Code: KKBL0005<br>Swift Code: 55558</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function showPaymentInformation() {
+      // Clear the previous content
+      document.getElementById('info-box').innerHTML = '';
+
+      // Display payment information
+      document.getElementById('info-box').innerHTML = `
+        <div class="popup-container">
+          <div class="popup-header">
+            <h2>Payment Information</h2>
+            <button onclick="showPopup()">Next</button>
+          </div>
+          <div class="popup-content">
+            <p>Agar Aapne Payment Complete kiya hai toh yeh form fill kare, warna upar se cancel kare !</p>
+            <form onsubmit="return submitForm()">
+              <label class="form-label">Name:</label><input type="text" name="name" class="form-input" required>
+              <label class="form-label">Email Address:</label><input type="text" name="email" class="form-input" required>
+              <label class="form-label">Payment Transaction I'd:</label><input type="text" name="transactionId" class="form-input" required>
+              <label class="form-label">Money Paid in Rupees:</label><input type="text" name="amount" class="form-input" required>
+              <label class="form-label">Contact Number:</label><input type="text" name="contact" class="form-input" required>
+              <input type="submit" value="Submit" class="form-submit">
+            </form>
+          </div>
+        </div>
+      `;
+    }
+
+    function showPopup() {
+      setTimeout(function () {
+        var popup = window.open('', 'Popup Window', 'width=400,height=300');
+        popup.document.write('<html><head><title>Payment Popup</title></head><body>');
+        popup.document.write('<div class="popup-container">');
+        popup.document.write('<div class="popup-header">');
+        popup.document.write('<h2>Payment Information</h2>');
+        popup.document.write('<button onclick="popup.close()">Exit</button>');
+        popup.document.write('</div>');
+        popup.document.write('<div class="popup-content">');
+        popup.document.write('<p>Agar Aapne Payment Complete kiya hai toh yeh form fill kare, warna upar se cancel kare !</p>');
+        popup.document.write('<form onsubmit="return submitForm()">');
+        popup.document.write('<label class="form-label">Name:</label><input type="text" name="name" class="form-input" required>');
+        popup.document.write('<label class="form-label">Email Address:</label><input type="text" name="email" class="form-input" required>');
+        popup.document.write('<label class="form-label">Payment Transaction I\'d:</label><input type="text" name="transactionId" class="form-input" required>');
+        popup.document.write('<label class="form-label">Money Paid in Rupees:</label><input type="text" name="amount" class="form-input" required>');
+        popup.document.write('<label class="form-label">Contact Number:</label><input type="text" name="contact" class="form-input" required>');
+        popup.document.write('<input type="submit" value="Submit" class="form-submit">');
+        popup.document.write('</form>');
+        popup.document.write('</div>');
+        popup.document.write('</div>');
+        popup.document.write('</body></html>');
+      }, 10000); // Wait for 10 seconds before showing the popup
+    }
+
+    function submitForm() {
+     // Use fetch to submit the data to the server
+      fetch('submit.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message);
+        paymentWindow.close(); // Close the payment window after submission
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+      });
+
+      return false; // Prevent the form from submitting traditionally
     }
   </script>
 
