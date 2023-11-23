@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,6 +43,20 @@
       border-radius: 5px;
       cursor: pointer;
       margin-top: 20px;
+    }
+
+    #admin-panel-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: none; /* Initially hide the admin panel button */
     }
 
     /* Style for the payment popup */
@@ -111,12 +126,23 @@
   <!-- Button to open account details on the same page -->
   <button id="donate-button" onclick="openAccountDetails()">Donate to Gaza</button>
 
+  <!-- Admin Panel Button (visible only for the admin) -->
+  <button id="admin-panel-button" onclick="openAdminPanel()">Admin Panel</button>
+
   <script>
+    // Simulating authentication, replace with a proper authentication mechanism
+    const isAdmin = confirm('Are you an admin?');
+    const isUserAuthenticated = false; // Assume user is not authenticated
+
+    if (isAdmin) {
+      document.getElementById('admin-panel-button').style.display = 'block';
+    }
+
     function openAccountDetails() {
       // Clear the previous content
       document.getElementById('info-box').innerHTML = '';
 
-      // Display account details
+      // Display account details with the photo
       document.getElementById('info-box').innerHTML = `
         <div class="popup-container">
           <div class="popup-header">
@@ -125,36 +151,31 @@
           </div>
           <div class="popup-content">
             <p>Account Number: 125335<br>IFSC Code: KKBL0005<br>Swift Code: 55558</p>
+            <img src="BiP Image 2023-11-23 at 12.00.38.jpg" alt="Account Photo" style="max-width: 100%;">
           </div>
         </div>
       `;
     }
 
-    function showPaymentInformation() {
-      // Clear the previous content
-      document.getElementById('info-box').innerHTML = '';
+    function openAdminPanel() {
+      // Implement admin panel functionality here
+      const username = prompt('Enter your username:');
+      const password = prompt('Enter your password:');
 
-      // Display payment information
-      document.getElementById('info-box').innerHTML = `
-        <div class="popup-container">
-          <div class="popup-header">
-            <h2>Payment Information</h2>
-            <button onclick="showPopup()">Next</button>
-          </div>
-          <div class="popup-content">
-            <p>Agar Aapne Payment Complete kiya hai toh yeh form fill kare, warna upar se cancel kare !</p>
-            <form onsubmit="return submitForm()">
-              <label class="form-label">Name:</label><input type="text" name="name" class="form-input" required>
-              <label class="form-label">Email Address:</label><input type="text" name="email" class="form-input" required>
-              <label class="form-label">Payment Transaction I'd:</label><input type="text" name="transactionId" class="form-input" required>
-              <label class="form-label">Money Paid in Rupees:</label><input type="text" name="amount" class="form-input" required>
-              <label class="form-label">Contact Number:</label><input type="text" name="contact" class="form-input" required>
-              <input type="submit" value="Submit" class="form-submit">
-            </form>
-          </div>
-        </div>
-      `;
+      if (username === 'admin' && password === 'admin') {
+        window.location.href = 'admin.html';
+      } else {
+        alert('Invalid credentials. Admin panel access denied.');
+      }
     }
+
+    // Rest of the script remains unchanged
+    // ...
+  </script>
+
+</body>
+</html>
+
 
     function showPopup() {
       setTimeout(function () {
