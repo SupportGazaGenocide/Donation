@@ -169,66 +169,64 @@
       }
     }
 
-    <script>
-  function showPopup() {
-    setTimeout(function () {
-      var popup = window.open('', 'Popup Window', 'width=400,height=300');
-      popup.document.write('<html><head><title>Payment Popup</title></head><body>');
-      popup.document.write('<div class="popup-container">');
-      popup.document.write('<div class="popup-header">');
-      popup.document.write('<h2>Payment Information</h2>');
-      popup.document.write('<button onclick="popup.close()">Exit</button>');
-      popup.document.write('</div>');
-      popup.document.write('<div class="popup-content">');
-      popup.document.write('<p>Agar Aapne Payment Complete kiya hai toh yeh form fill kare, warna upar se cancel kare !</p>');
-      popup.document.write('<form onsubmit="return submitForm()">');
-      popup.document.write('<label class="form-label">Name:</label><input type="text" id="name" name="name" class="form-input" required>');
-      popup.document.write('<label class="form-label">Email Address:</label><input type="text" id="email" name="email" class="form-input" required>');
-      popup.document.write('<label class="form-label">Payment Transaction I\'d:</label><input type="text" id="transactionId" name="transactionId" class="form-input" required>');
-      popup.document.write('<label class="form-label">Money Paid in Rupees:</label><input type="text" id="amount" name="amount" class="form-input" required>');
-      popup.document.write('<label class="form-label">Contact Number:</label><input type="text" id="contact" name="contact" class="form-input" required>');
-      popup.document.write('<input type="submit" value="Submit" class="form-submit">');
-      popup.document.write('</form>');
-      popup.document.write('</div>');
-      popup.document.write('</div>');
-      popup.document.write('</body></html>');
-    }, 10000); // Wait for 10 seconds before showing the popup
-  }
+    function showPaymentInformation() {
+      // Clear the previous content
+      document.getElementById('info-box').innerHTML = '';
 
-  function submitForm() {
-    // Gather form data
-    const formData = {
-      name: document.getElementById('name').value,
-      email: document.getElementById('email').value,
-      transactionId: document.getElementById('transactionId').value,
-      amount: document.getElementById('amount').value,
-      contact: document.getElementById('contact').value,
-    };
+      // Display payment information
+      document.getElementById('info-box').innerHTML = `
+        <div class="popup-container">
+          <div class="popup-header">
+            <h2>Payment Information</h2>
+            <button onclick="showPopup()">Next</button>
+          </div>
+          <div class="popup-content">
+            <p>Agar Aapne Payment Complete kiya hai toh yeh form fill kare, warna upar se cancel kare !</p>
+            <form onsubmit="return submitForm()">
+              <label class="form-label">Name:</label><input type="text" id="name" name="name" class="form-input" required>
+              <label class="form-label">Email Address:</label><input type="text" id="email" name="email" class="form-input" required>
+              <label class="form-label">Payment Transaction I'd:</label><input type="text" id="transactionId" name="transactionId" class="form-input" required>
+              <label class="form-label">Money Paid in Rupees:</label><input type="text" id="amount" name="amount" class="form-input" required>
+              <label class="form-label">Contact Number:</label><input type="text" id="contact" name="contact" class="form-input" required>
+              <input type="submit" value="Submit" class="form-submit">
+            </form>
+          </div>
+        </div>
+      `;
+    }
 
-    // Use fetch to submit the data to the server
-    fetch('submit.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-    .then(response => response.json())
-    .then(data => {
-      alert(data.message);
-      paymentWindow.close(); // Close the payment window after submission
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('An error occurred. Please try again.');
-    });
+    function showPopup() {
+      // Use fetch to submit the data to the server
+      fetch('submit.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(getFormData()),
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message);
+        // Close the payment window after submission
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+      });
+    }
 
-    return false; // Prevent the form from submitting traditionally
-  }
-</script>
-
+    function getFormData() {
+      // Gather form data
+      return {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        transactionId: document.getElementById('transactionId').value,
+        amount: document.getElementById('amount').value,
+        contact: document.getElementById('contact').value,
+      };
+    }
+  </script>
 
 </body>
 </html>
-
-
